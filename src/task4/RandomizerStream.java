@@ -1,18 +1,27 @@
 package task4;
 
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
 public class RandomizerStream {
-    public static void main(String[] args) {
-        Randomizer r = new Randomizer(25214903917l, (long) Math.pow(2, 48));
-        r.withSeed(11);
+    public static Stream<Long> randomStream(long seed, long a, long c, long m) {
+        AtomicLong x = new AtomicLong(seed);
 
-        Stream<Integer> stream = Stream.iterate(11, (seed) -> r.withSeed(seed).nextRandom());
-        stream.filter(i -> i > 0)
+        return Stream.iterate(seed, n -> {
+            long nextRandom = (a * x.getAndSet(n) + c) % m;
+            return nextRandom;
+        });
+    }
+    public static void main(String[] args) {
+        long a = 25214903917L;
+        long c = 11;
+        long m = (long) Math.pow(2, 48);
+        long seed = 1L;
+
+        randomStream(seed, a, c, m)
+                .filter(i -> i > 0)
                 .filter(i -> i < 50)
                 .limit(10)
-                .peek(System.out::println)
-                .collect(Collectors.toList());
+                .forEach(System.out::println);
     }
 }

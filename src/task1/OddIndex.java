@@ -15,11 +15,9 @@ public class OddIndex {
     }
 
     public String odd(List<String> list) {
-        List<String> stream = IntStream.range(0, list.size())
+        return IntStream.range(0, list.size())
                 .filter((int i) -> i % 2 != 0)
                 .mapToObj(i -> i + ". " + list.get(i))
-                .collect(Collectors.toList());
-         String str = String.join(", ", stream);
-         return str;
+                .collect(Collectors.joining(", "));
     }
 }

@@ -17,14 +17,6 @@ public class MixStreams {
             mixedList.add(secondIterator.next());
         }
 
-        while (firstIterator.hasNext()) {
-            mixedList.add(firstIterator.next());
-        }
-
-        while (secondIterator.hasNext()) {
-            mixedList.add(secondIterator.next());
-        }
-
         Collections.shuffle(mixedList);
         return mixedList.stream();
 
